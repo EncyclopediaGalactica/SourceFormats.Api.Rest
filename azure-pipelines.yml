@@ -109,6 +109,7 @@ stages:
               SONAR_LOGIN_NAME: $(sonar.login)
               
       - job: restore_solution
+        dependsOn: sonar_scan
         displayName: Restore Solution
         steps:
           - script: dotnet restore $solutionName
