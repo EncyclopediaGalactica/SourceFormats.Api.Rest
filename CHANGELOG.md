@@ -1,3 +1,10 @@
+## [0.1.2](https://github.com/EncyclopediaGalactica/SourceFormats.Rest.Service/compare/0.1.1...0.1.2) (2021-08-14)
+
+
+### Bug Fixes
+
+* clean up ([#5](https://github.com/EncyclopediaGalactica/SourceFormats.Rest.Service/issues/5)) ([8310927](https://github.com/EncyclopediaGalactica/SourceFormats.Rest.Service/commit/83109276a61cb376c282cb619c4ba8bcb63de276))
+
 ## [0.1.1](https://github.com/EncyclopediaGalactica/SourceFormats.Rest.Service/compare/0.1.0...0.1.1) (2021-08-14)
 
 
