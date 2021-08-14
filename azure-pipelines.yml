@@ -168,6 +168,3 @@ stages:
             displayName: semantic-release
             env:
               GH_TOKEN: $(githubToken)
-              
-      
-          
