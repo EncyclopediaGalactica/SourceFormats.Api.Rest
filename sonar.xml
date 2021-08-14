@@ -1,7 +1,5 @@
-
 <?xml version="1.0" encoding="utf-8" ?>
-<SonarQubeAnalysisProperties
-        xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
+<SonarQubeAnalysisProperties xmlns="http://www.sonarsource.com/msbuild/integration/2015/1">
     <Property Name="sonar.sources">src</Property>
     <Property Name="sonar.exclusions">
         **/bin/**/*,

@@ -142,16 +142,16 @@ stages:
             displayName: semantic-release
             
           - script: npm install @semantic-release/changelog
-            displayName: @semantic-release/changelog
+            displayName: semantic-release/changelog
             
           - script: npm install @semantic-release/exec
-            displayName: @semantic-release/exec
+            displayName: semantic-release/exec
             
           - script: npm install @semantic-release/git
-            displayName: @semantic-release/git
+            displayName: semantic-release/git
             
           - script: npm install @semantic-release/github
-            displayName: @semantic-release/github
+            displayName: semantic-release/github
             
           - script: pip3 install --user bump2version
             displayName: bump2version
@@ -168,6 +168,3 @@ stages:
             displayName: semantic-release
             env:
               GH_TOKEN: $(githubToken)
-              
-      
-          
