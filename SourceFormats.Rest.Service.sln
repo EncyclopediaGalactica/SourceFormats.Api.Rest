@@ -1,0 +1,32 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication", "src\WebApplication\WebApplication.csproj", "{3651C87B-1C72-4D9A-A775-E5F1CDA80F95}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Controllers", "src\Controllers\Controllers.csproj", "{0B5EAE77-0186-413A-9B31-52C6DC61EAA9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{9B6C9BE1-DCB6-4816-993E-8E665AE6C7CD}"
+ProjectSection(SolutionItems) = preProject
+	.gitignore = .gitignore
+	azure-pipelines.yml = azure-pipelines.yml
+	sonar.xml = sonar.xml
+	bumpversion.cfg = bumpversion.cfg
+	.releaserc = .releaserc
+	README.md = README.md
+EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3651C87B-1C72-4D9A-A775-E5F1CDA80F95}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3651C87B-1C72-4D9A-A775-E5F1CDA80F95}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3651C87B-1C72-4D9A-A775-E5F1CDA80F95}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3651C87B-1C72-4D9A-A775-E5F1CDA80F95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B5EAE77-0186-413A-9B31-52C6DC61EAA9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B5EAE77-0186-413A-9B31-52C6DC61EAA9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B5EAE77-0186-413A-9B31-52C6DC61EAA9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B5EAE77-0186-413A-9B31-52C6DC61EAA9}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

@@ -4,16 +4,170 @@
 # https://aka.ms/yaml
 
 trigger:
-- main
+  branches:
+    include:
+      - main
+        
+pr:
+  - main
 
-pool:
-  vmImage: ubuntu-latest
+pool: 'contabo'
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+variables:
+  releaseBuild: '-c Release'
+  debugBuild: '-c Debug'
+  solutionName: 'SourceFormats.Rest.Service.sln'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+stages:
+  - stage: setup
+    displayName: Setup
+    jobs:
+      - job: env_vars
+        displayName: Env variables
+        steps:
+          - script: |
+              echo $PATH
+              env | sort
+      - job: dotcover_install
+        displayName: Install dotCover
+        steps:
+          - script: |
+              dotnet new tool-manifest
+              dotnet tool install --local JetBrains.dotCover.GlobalTool
+              dotnet tool install --local dotnet-sonarscanner
+              
+  - stage: feature_branch
+    displayName: Feature Branch
+    condition: ne(variables['System.PullRequest.SourceBranch'], '')
+    jobs:
+      - job: sonar_scan
+        displayName: Sonar scan start
+        steps:
+          - script: |
+              dotnet sonarscanner begin \
+              /k:"SourceFormats.Rest.Service" \
+              /d:sonar.host.url=$(sonar.host.url) \
+              /d:sonar.login=$SONAR_LOGIN_NAME \
+              /o:$(sonar.organization) \
+              /s:../s/sonar.xml \
+              /d:sonar.pullrequest.key=$(System.PullRequest.PullRequestNumber) \
+              /d:sonar.pullrequest.branch=$(System.PullRequest.SourceBranch) \
+              /d:sonar.pullrequest.base=main \
+              /d:sonar.pullrequest.provider=GitHub \
+              /d:sonar.pullrequest.github.repository=EncyclopediaGalactica/SourceFormats.Rest.Service
+          env:
+            SONAR_LOGIN_NAME: $(sonar.login)
+            
+      - job: restore_solution
+        displayName: Restore Solution
+        dependsOn: sonar_scan
+        steps:
+          - script: dotnet restore $solutionName
+      
+      - job: build_solution
+        displayName: Build Solution
+        dependsOn: restore_solution
+        steps:
+          - script: dotnet build $solutionName $debugBuild
+      
+      - job: test_solution
+        displayName: Test and Coverage
+        dependsOn: build_solution
+        steps:
+          - script: |
+              dotnet dotcover test \
+              --no-build \
+              --dotCoverReportType=html
+              
+      - job: sonar_end
+        dependsOn: test_solution
+        displayName: Sonar End
+        steps:
+          - script: |
+              dotnet sonarscanner end /d:sonar.login=$SONAR_LOGIN_NAME
+            env:
+              SONAR_LOGIN_NAME: $(sonar.login)
+        
+  - stage: Main_branch
+    displayName: Main Branch
+    condition: and(eq(variables['System.PullRequest.SourceBranch'], ''), eq(variables['Build.SourceBranch'], '/ref/heads/main'))
+    jobs:
+      
+      - job: sonar_scan
+        displayName: Sonar scan start
+        steps:
+          - script: |
+              dotnet sonarscanner begin \
+              /k:"SourceFormats.Rest.Service" \
+              /d:sonar.host.url=$(sonar.host.url) \
+              /d:sonar.login=$SONAR_LOGIN_NAME \
+              /o:$(sonar.organization) \
+              /s:../sonar.xml \
+              /d:sonar.pullrequest.provider=GitHub \
+              /d:sonar.pullrequest.github.repository=EncyclopediaGalactica/Sourceformats.Rest.Service
+            env:
+              SONAR_LOGIN_NAME: $(sonar.login)
+              
+      - job: restore_solution
+        displayName: Restore Solution
+        steps:
+          - script: dotnet restore $solutionName
+      
+      - job: build_solution
+        dependsOn: restore_solution
+        displayName: Build Solution
+        steps:
+          - script: dotnet build $solutionName $debugBuild
+        
+      - job: test_solution
+        dependsOn: build_solution
+        displayName: Test and Cover
+        steps:
+          - script: |
+              dotnet sonarscanner end /d:sonar.login=$SONAR_LOGIN_NAME
+            env:
+              SONAR_LOGIN_NAME: $(sonar.login)
+              
+      - job: install_semantic
+        dependsOn: test_solution
+        displayName: Install Semantic
+        steps:
+          - script: echo '##vso[task.prependpath]$HOME/.local/bin'
+            displayName: PATH
+            
+          - script: npm install npm@6
+            displayName: npm@6
+            
+          - script: npm install semantic-release
+            displayName: semantic-release
+            
+          - script: npm install @semantic-release/changelog
+            displayName: @semantic-release/changelog
+            
+          - script: npm install @semantic-release/exec
+            displayName: @semantic-release/exec
+            
+          - script: npm install @semantic-release/git
+            displayName: @semantic-release/git
+            
+          - script: npm install @semantic-release/github
+            displayName: @semantic-release/github
+            
+          - script: pip3 install --user bump2version
+            displayName: bump2version
+            
+      - job: semantic_release
+        dependsOn: install_semantic
+        displayName: Semantic Release
+        steps:
+          
+          - script: echo '##vso[task.prependpath]$HOME/.local/bin'
+            displayName: PATH
+            
+          - script: npx semantic-release
+            displayName: semantic-release
+            env:
+              GH_TOKEN: $(githubToken)
+              
+      
+          
