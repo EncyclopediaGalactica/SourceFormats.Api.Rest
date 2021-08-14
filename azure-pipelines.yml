@@ -132,7 +132,7 @@ stages:
         dependsOn: test_solution
         displayName: Install Semantic
         steps:
-          - script: echo '##vso[task.prependpath]$HOME/.local/bin'
+          - script: echo '##vso[task.prependpath]$(HOME)/.local/bin'
             displayName: PATH
             
           - script: npm install npm@6
@@ -161,7 +161,7 @@ stages:
         displayName: Semantic Release
         steps:
           
-          - script: echo '##vso[task.prependpath]$HOME/.local/bin'
+          - script: echo '##vso[task.prependpath]$(HOME)/.local/bin'
             displayName: PATH
             
           - script: npx semantic-release
