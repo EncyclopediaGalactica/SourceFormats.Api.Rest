@@ -55,8 +55,8 @@ stages:
               /d:sonar.pullrequest.base=main \
               /d:sonar.pullrequest.provider=GitHub \
               /d:sonar.pullrequest.github.repository=EncyclopediaGalactica/SourceFormats.Rest.Service
-          env:
-            SONAR_LOGIN_NAME: $(sonar.login)
+            env:
+              SONAR_LOGIN_NAME: $(sonar.login)
             
       - job: restore_solution
         displayName: Restore Solution
