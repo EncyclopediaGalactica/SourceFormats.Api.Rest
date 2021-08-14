@@ -90,7 +90,7 @@ stages:
         
   - stage: Main_branch
     displayName: Main Branch
-    condition: and(eq(variables['System.PullRequest.SourceBranch'], ''), eq(variables['Build.SourceBranch'], '/ref/heads/main'))
+    condition: and(eq(variables['System.PullRequest.SourceBranch'], ''), eq(variables['Build.SourceBranch'],'refs/heads/main'))
     jobs:
       
       - job: sonar_scan
