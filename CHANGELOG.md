@@ -1,3 +1,10 @@
+# [0.2.0](https://github.com/EncyclopediaGalactica/SourceFormats.Rest.Service/compare/0.1.2...0.2.0) (2021-09-27)
+
+
+### Features
+
+* add editorconfig ([fc9c440](https://github.com/EncyclopediaGalactica/SourceFormats.Rest.Service/commit/fc9c4404703fe709af5513cbbe7faef060eb858b))
+
 ## [0.1.2](https://github.com/EncyclopediaGalactica/SourceFormats.Rest.Service/compare/0.1.1...0.1.2) (2021-08-14)
 
 
