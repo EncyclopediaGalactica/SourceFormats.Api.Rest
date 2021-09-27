@@ -25,11 +25,12 @@ stages:
               env | sort
       - job: dotcover_install
         displayName: Install dotCover
+        dependsOn: env_vars
         steps:
           - script: |
-              dotnet new tool-manifest
-              dotnet tool install --local JetBrains.dotCover.GlobalTool
-              dotnet tool install --local dotnet-sonarscanner
+              dotnet new tool-manifest --force
+              dotnet tool install --local JetBrains.dotCover.GlobalTool --ignore-failed-sources
+              dotnet tool install --local dotnet-sonarscanner --ignore-failed-sources
               
   - stage: feature_branch
     displayName: Feature Branch
