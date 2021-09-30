@@ -14,6 +14,9 @@ using Microsoft.OpenApi.Models;
 
 namespace WebApplication
 {
+    using Microsoft.AspNetCore.Mvc.Formatters;
+    using Microsoft.Extensions.Options;
+
     public class Startup
     {
         public Startup(IConfiguration configuration)
@@ -27,10 +30,30 @@ namespace WebApplication
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddControllersWithViews(p =>
+            {
+                p.InputFormatters.Insert(0, GetJsonPatchInputFormatter());
+            });
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApplication", Version = "v1" });
             });
+        }
+        
+        private static NewtonsoftJsonPatchInputFormatter GetJsonPatchInputFormatter()
+        {
+            var builder = new ServiceCollection()
+                .AddLogging()
+                .AddMvc()
+                .AddNewtonsoftJson()
+                .Services.BuildServiceProvider();
+
+            return builder
+                .GetRequiredService<IOptions<MvcOptions>>()
+                .Value
+                .InputFormatters
+                .OfType<NewtonsoftJsonPatchInputFormatter>()
+                .First();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
