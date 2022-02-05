@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 public class TestController : ControllerBase
 {
     [HttpGet]
+    [Route("test")]
     public String Test()
     {
         return "Ok";
