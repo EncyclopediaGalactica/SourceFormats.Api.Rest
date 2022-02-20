@@ -30,7 +30,7 @@ stages:
         displayName: Maven Clean Compile
         steps:
           - script: |
-              mvn clean compile
+              ./mvnw clean compile
 
 #stages:
 #  - stage: setup
